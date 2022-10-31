@@ -135,11 +135,11 @@ export  const AppLayout = () => {
                 <Route path="/doctors"  exact element={<DoctorsList/>}/>
                 <Route path="*" element={<Navigate to="/patients" replace/>}/>
             </Routes>
-            <LoginDialog>
+            <LoginDialog
                 open={openLoginDialog}
                 handleSubmit={handleLoginSubmit}
                 handleClose={handleLoginClose}
-            </LoginDialog>
+            />
         </>
     )
 }
