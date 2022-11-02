@@ -1,7 +1,5 @@
 export const MainPage = () => {
     return (
-        <>
-            This is main page
-        </>
+        <> Main page</>
     )
 }

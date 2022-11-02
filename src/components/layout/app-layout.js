@@ -90,7 +90,7 @@ export  const AppLayout = () => {
                             }}
                         >
 
-                            {!user ? (  //change to 'user ?'
+                            {user ? (  //change to 'user ?'
                                 <>
                                     <Tooltip title="Open settings">
                                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

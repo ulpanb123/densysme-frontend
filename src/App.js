@@ -7,8 +7,8 @@ import {NotificationContainer} from "react-notifications"
 import {UserProvider} from "./context/user-context";
 
 export const App = () => (
-
-
+    // !! UNCOMMENT UserProvider 
+    // <UserProvider>
         <Suspense fallback={null}>
             <Container className="page-container">
                 <Router>
@@ -17,7 +17,6 @@ export const App = () => (
                 </Router>
             </Container>
         </Suspense>
-
-
+    // </UserProvider>
 )
 
