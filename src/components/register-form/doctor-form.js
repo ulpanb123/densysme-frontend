@@ -196,6 +196,12 @@ export const DoctorForm = () => {
                             />
                         </FormControl>
                         <FormControl className={classes.mb2}>
+                            <Button variant="contained" component="label">
+                                Upload a photo
+                                <input hidden accept="image/*" multiple type="file" />
+                            </Button>
+                        </FormControl>
+                        <FormControl className={classes.mb2}>
                             <TextField
                                 label="Experience"
                                 name="experience"

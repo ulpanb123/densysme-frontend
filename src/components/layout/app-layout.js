@@ -56,7 +56,7 @@ export  const AppLayout = () => {
     //not authorized -> main page, authorized -> patients page
     useEffect(() => {
         if(!user) {
-            navigate("admin/doctors/add")    //change to "/"
+            navigate("/")    //change to "/"
         } else {
             navigate("/patients")
         }
