@@ -20,9 +20,9 @@ import classes from "./styles.module.css"
 import { BackendApi } from "../../client/backend-api/patient"
 
 export const PatientsList = () => {
-    const [patients, setPatients] = useState([
+    const [patients, setPatients] = useState([      //change initialState to []
         {
-            "id": 201728560,
+            "id": "201728560",
             "name": "Taylor Alison Swift",
             "birth": "13.12.89",
             "IIN": "131289898989",
@@ -35,7 +35,7 @@ export const PatientsList = () => {
             "registered_date": "31.10.22"
         },
         {
-            "id": 201842568,
+            "id": "201842568",
             "name": "Helena Blosson Mary",
             "birth": "08.03.78",
             "IIN": "010203500145",
@@ -50,11 +50,23 @@ export const PatientsList = () => {
     ])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [openModal, setOpenModal] = useState(false)
+    const [activePatientId, setActivePatientId] = useState("")
 
     const fetchPatients = async () => {
-        const { patients } = await BackendApi.getAllPatients()
-        setPatients(patients)
-        console.log(patients)
+        // const { patients } = await BackendApi.getAllPatients()
+        // setPatients(patients)
+        // console.log(patients)       //cut
+    }
+
+    const deletePatient = (patientId) => {
+        // if (patients.length) {
+        //     BackendApi.deletePatient(patientId).then(({ success }) => {
+        //         fetchPatients().catch(console.error)
+        //         setOpenModal(false)
+        //         setActivePatientId("")
+        //     })
+        // }
     }
 
     useEffect(() => {
@@ -103,9 +115,20 @@ export const PatientsList = () => {
                                                         variant="contained"
                                                         component={RouterLink}
                                                         size="small"
-                                                        to={`/patients/0`}
+                                                        to={`/patients/0`}    //change to 'patients/:${patient.id}'
                                                     >
                                                         View
+                                                    </Button>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="secondary"
+                                                        size="small"
+                                                        onClick={(e) => {
+                                                            setActivePatientId(patient.id)
+                                                            setOpenModal(true)
+                                                        }}
+                                                    >
+                                                        Delete
                                                     </Button>
                                                 </div>
                                             </TableCell>
@@ -125,6 +148,21 @@ export const PatientsList = () => {
                             page={page}
                             onPageChange={(e, newPage) => setPage(newPage)}
                         />
+                        <Modal open={openModal} onClose={(e) => setOpenModal(false)}>
+                            <Card className={classes.conf_modal}>
+                                <CardContent>
+                                    <h2>Are you sure?</h2>
+                                </CardContent>
+                                <CardActions className={classes.conf_modal_actions}>
+                                    <Button variant="contained" onClick={() => setOpenModal(false)}>
+                                        Cancel
+                                    </Button>
+                                    <Button variant="contained" color="secondary" onClick={deletePatient(activePatientId)}>
+                                        Delete
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Modal>
                     </div>
                 </>
             ) : (

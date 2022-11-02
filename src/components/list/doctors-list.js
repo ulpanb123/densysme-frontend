@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {BackendApi} from "../../client/backend-api/doctor";
 import classes from "./styles.module.css";
 import {
-    Button,
+    Button, Card, CardActions, CardContent, Modal,
     Paper,
     Table,
     TableBody,
@@ -15,9 +15,9 @@ import {
 import {Link as RouterLink} from "react-router-dom";
 
 export const DoctorsList = () => {
-    const [doctors, setDoctors] = useState([
+    const [doctors, setDoctors] = useState([        //change to []
         {
-            "id": 201825560,
+            "id": "201825560",
             "name": "Jane Rose Wood",
             "birth": "08.03.78",
             "IIN": "141516255698",
@@ -37,11 +37,23 @@ export const DoctorsList = () => {
     ])
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [openModal, setOpenModal] = useState(false)
+    const [activeDoctorId, setActiveDoctorId] = useState("")
 
     const fetchDoctors = async () => {
         const { doctors } = await BackendApi.getAllDoctors()
         setDoctors(doctors)
         console.log(doctors)
+    }
+
+    const deleteDoctor = (doctorId) => {
+        if (doctors.length) {
+            BackendApi.deleteDoctor(doctorId).then(({ success }) => {
+                fetchDoctors().catch(console.error)
+                setOpenModal(false)
+                setActiveDoctorId("")
+            })
+        }
     }
 
     useEffect(() => {
@@ -90,9 +102,20 @@ export const DoctorsList = () => {
                                                         variant="contained"
                                                         component={RouterLink}
                                                         size="small"
-                                                        to={`/doctors/0`}
+                                                        to={`/doctors/0`}       //change to '/doctors/:${doctor.id}'
                                                     >
                                                         View
+                                                    </Button>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="secondary"
+                                                        size="small"
+                                                        onClick={(e) => {
+                                                            setActiveDoctorId(doctor.id)
+                                                            setOpenModal(true)
+                                                        }}
+                                                    >
+                                                        Delete
                                                     </Button>
                                                 </div>
                                             </TableCell>
@@ -112,6 +135,21 @@ export const DoctorsList = () => {
                             page={page}
                             onPageChange={(e, newPage) => setPage(newPage)}
                         />
+                        <Modal open={openModal} onClose={(e) => setOpenModal(false)}>
+                            <Card className={classes.conf_modal}>
+                                <CardContent>
+                                    <h2>Are you sure?</h2>
+                                </CardContent>
+                                <CardActions className={classes.conf_modal_actions}>
+                                    <Button variant="contained" onClick={() => setOpenModal(false)}>
+                                        Cancel
+                                    </Button>
+                                    <Button variant="contained" color="secondary" onClick={deleteDoctor(activeDoctorId)}>
+                                        Delete
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Modal>
                     </div>
                 </>
             ) : (

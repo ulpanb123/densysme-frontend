@@ -8,6 +8,7 @@ import {UserProvider} from "./context/user-context";
 
 export const App = () => (
 
+
         <Suspense fallback={null}>
             <Container className="page-container">
                 <Router>
@@ -16,6 +17,7 @@ export const App = () => (
                 </Router>
             </Container>
         </Suspense>
+
 
 )
 

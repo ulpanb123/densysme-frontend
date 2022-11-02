@@ -1,6 +1,6 @@
 import {useState, useEffect, createContext, useContext} from "react";
 import {NotificationManager} from "react-notifications"
-import { BackendApi} from "../client/backend-api/user"
+import { BackendApi} from "../client/backend-api/admin"
 
 const UserContext = createContext({
     user : null,
@@ -11,11 +11,6 @@ const useUser = () => useContext(UserContext)
 
 const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null)
-    const [isAdmin, setIsAdmin] = useState(false)
-
-    useEffect(() => {
-        setIsAdmin(user)
-    }, [user])
 
     useEffect(() => {
         BackendApi.getProfile().then(({user, error}) => {
@@ -43,7 +38,7 @@ const UserProvider = ({ children }) => {
     }
 
     return (
-        <UserContext.Provider value={{user, loginUser, logoutUser, isAdmin}}>
+        <UserContext.Provider value={{user, loginUser, logoutUser}}>
             {children}
         </UserContext.Provider>
     )

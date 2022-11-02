@@ -19,12 +19,14 @@ import AdbIcon from "@mui/icons-material/Adb"
 import {PatientsList} from "../list/patients-list";
 import {DoctorsList} from "../list/doctors-list";
 import {LoginDialog} from "../login/login-dialog";
-
+import {WithLoginProtector} from "../access-control/login-protector"
+import {PatientForm} from "../register-form/patient-form"
+import {MainPage} from "../../main_page";
 
 export  const AppLayout = () => {
     const [openLoginDialog, setOpenLoginDialog] = useState(false)
     const [anchorElUser, setAnchorElUser] = useState(null)
-    const { user, loginUser, logoutUser, isAdmin} = useUser()
+    const { user, loginUser, logoutUser} = useUser()
     const navigate = useNavigate()
 
     const handleOpenUserMenu = (event) => {
@@ -33,6 +35,7 @@ export  const AppLayout = () => {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null)
+        navigate("/")
     }
 
     const handleLoginSubmit = (username, password) => {
@@ -49,13 +52,14 @@ export  const AppLayout = () => {
        // handleCloseUserMenu()
     }
 
+    //not authorized -> main page, authorized -> patients page
     useEffect(() => {
         if(!user) {
             navigate("/")
-        } else if(isAdmin) {
+        } else {
             navigate("/patients")
         }
-    }, [user, isAdmin])
+    }, [user])
 
     return(
         <>
@@ -85,11 +89,11 @@ export  const AppLayout = () => {
                             }}
                         >
 
-                            {user ? (
+                            {!user ? (  //change to 'user ?'
                                 <>
                                     <Tooltip title="Open settings">
                                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                            <Avatar> {user.username.charAt(0).toUpperCase()} </Avatar>
+                                            <Avatar> {"T"} </Avatar>
                                         </IconButton>
                                     </Tooltip>
                                     <Menu
@@ -131,9 +135,26 @@ export  const AppLayout = () => {
                 </Container>
             </AppBar>
             <Routes>
+                <Route path="/" exact element={<MainPage/>}/>
                 <Route path="/patients" exact element={<PatientsList/>}/>
                 <Route path="/doctors"  exact element={<DoctorsList/>}/>
-                <Route path="*" element={<Navigate to="/patients" replace/>}/>
+                <Route
+                    path="/admin/patients/add"
+                    element={
+                        <WithLoginProtector>
+                                <PatientForm />
+                        </WithLoginProtector>
+                    }
+                    exact
+                />
+                {/*<Route*/}
+                {/*    path="/admin/doctors/add"*/}
+                {/*    element={*/}
+                {/*        <WithLoginProtector>*/}
+                {/*                <DoctorForm />*/}
+                {/*        </WithLoginProtector>*/}
+                {/*    }*/}
+                {/*/>*/}
             </Routes>
             <LoginDialog
                 open={openLoginDialog}
