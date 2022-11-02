@@ -41,19 +41,24 @@ export const DoctorsList = () => {
     const [activeDoctorId, setActiveDoctorId] = useState("")
 
     const fetchDoctors = async () => {
-        const { doctors } = await BackendApi.getAllDoctors()
-        setDoctors(doctors)
-        console.log(doctors)
+        // !! UNCOMMENT!!
+
+        // const { doctors } = await BackendApi.getAllDoctors()
+        // setDoctors(doctors)
+        // console.log(doctors)
     }
 
     const deleteDoctor = (doctorId) => {
-        if (doctors.length) {
-            BackendApi.deleteDoctor(doctorId).then(({ success }) => {
-                fetchDoctors().catch(console.error)
-                setOpenModal(false)
-                setActiveDoctorId("")
-            })
-        }
+
+        //!! UNCOMMENT !!
+
+        // if (doctors.length) {
+        //     BackendApi.deleteDoctor(doctorId).then(({ success }) => {
+        //         fetchDoctors().catch(console.error)
+        //         setOpenModal(false)
+        //         setActiveDoctorId("")
+        //     })
+        // }
     }
 
     useEffect(() => {

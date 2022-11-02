@@ -22,6 +22,7 @@ import {LoginDialog} from "../login/login-dialog";
 import {WithLoginProtector} from "../access-control/login-protector"
 import {PatientForm} from "../register-form/patient-form"
 import {MainPage} from "../../main_page";
+import {DoctorForm} from "../register-form/doctor-form";
 
 export  const AppLayout = () => {
     const [openLoginDialog, setOpenLoginDialog] = useState(false)
@@ -55,7 +56,7 @@ export  const AppLayout = () => {
     //not authorized -> main page, authorized -> patients page
     useEffect(() => {
         if(!user) {
-            navigate("/")
+            navigate("admin/doctors/add")    //change to "/"
         } else {
             navigate("/patients")
         }
@@ -147,14 +148,14 @@ export  const AppLayout = () => {
                     }
                     exact
                 />
-                {/*<Route*/}
-                {/*    path="/admin/doctors/add"*/}
-                {/*    element={*/}
-                {/*        <WithLoginProtector>*/}
-                {/*                <DoctorForm />*/}
-                {/*        </WithLoginProtector>*/}
-                {/*    }*/}
-                {/*/>*/}
+                <Route
+                    path="/admin/doctors/add"
+                    element={
+                        <WithLoginProtector>
+                                <DoctorForm />
+                        </WithLoginProtector>
+                    }
+                />
             </Routes>
             <LoginDialog
                 open={openLoginDialog}

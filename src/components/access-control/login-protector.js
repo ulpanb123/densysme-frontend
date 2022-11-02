@@ -4,7 +4,7 @@ import { useUser } from "../../context/user-context"
 
 export const WithLoginProtector = ({ children }) => {
     const { user } = useUser()
-    if (user) {
+    if (!user) {    //change to user
         return children
     } else {
         NotificationManager.error('Please login to proceed!')
