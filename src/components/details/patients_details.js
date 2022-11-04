@@ -48,18 +48,12 @@ export const PatientsDetails = () => {
         patient && (
             <div className={classes.wrapper}>
                 <Typography variant="h5" align="center" style={{ marginBottom: 20 }}>
-                    Patient Details
+                    {patient.name}
                 </Typography>
                 <Card>
                     <CardContent>
                         <Table>
                             <TableBody>
-                                <TableRow>
-                                    <TableCell variant="head" component="th" width="200">
-                                        Name
-                                    </TableCell>
-                                    <TableCell>{patient.name}</TableCell>
-                                </TableRow>
                                 <TableRow>
                                     <TableCell variant="head" component="th">
                                         Patient ID

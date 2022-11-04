@@ -54,7 +54,7 @@ export const DoctorsDetails= () => {
         doctor && (
             <div className={classes.wrapper}>
                 <Typography variant="h5" align="center" style={{ marginBottom: 20 }}>
-                    Doctor Details
+                    {doctor.name}
                 </Typography>
                 <Card>
                     <CardContent>
@@ -67,12 +67,6 @@ export const DoctorsDetails= () => {
                         </div>
                         <Table>
                             <TableBody>
-                                <TableRow>
-                                    <TableCell variant="head" component="th" width="200">
-                                        Name
-                                    </TableCell>
-                                    <TableCell>{doctor.name}</TableCell>
-                                </TableRow>
                                 <TableRow>
                                     <TableCell variant="head" component="th">
                                         Patient ID
