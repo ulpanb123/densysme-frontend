@@ -23,6 +23,8 @@ import {WithLoginProtector} from "../access-control/login-protector"
 import {PatientForm} from "../register-form/patient-form"
 import {MainPage} from "../../main_page";
 import {DoctorForm} from "../register-form/doctor-form";
+import {PatientsDetails} from "../details/patients_details";
+import {DoctorsDetails} from "../details/doctors_details";
 
 export  const AppLayout = () => {
     const [openLoginDialog, setOpenLoginDialog] = useState(false)
@@ -53,13 +55,8 @@ export  const AppLayout = () => {
        // handleCloseUserMenu()
     }
 
-    //not authorized -> main page, authorized -> patients page
     useEffect(() => {
-        if(!user) {
-            navigate("/")    //change to "/"
-        } else {
-            navigate("/patients")
-        }
+        navigate('/')
     }, [user])
 
     return(
@@ -90,7 +87,7 @@ export  const AppLayout = () => {
                             }}
                         >
 
-                            {user ? (  
+                            {user ? (
                                 <>
                                     <Tooltip title="Open settings">
                                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -137,24 +134,40 @@ export  const AppLayout = () => {
             </AppBar>
             <Routes>
                 <Route path="/" exact element={<MainPage/>}/>
-                <Route path="/patients" exact element={<PatientsList/>}/>
-                <Route path="/doctors"  exact element={<DoctorsList/>}/>
+                <Route path="admin/patients" element={
+                    <WithLoginProtector>
+                        <PatientsList/>
+                    </WithLoginProtector>}
+                       exact/>
+                <Route path="admin/doctors" element={
+                    <WithLoginProtector>
+                        <DoctorsList/>
+                    </WithLoginProtector>}
+                       exact
+                />
+                <Route
+                    path="/admin/patients/:patientId"
+                    element={<PatientsDetails />}
+                />
+                <Route
+                    path="/admin/doctors/:doctorId"
+                    element={<DoctorsDetails />}
+                />
                 <Route
                     path="/admin/patients/add"
-                    element={
-                        <WithLoginProtector>
-                                <PatientForm />
-                        </WithLoginProtector>
-                    }
-                    exact
+                    exact element={<PatientForm/>}
                 />
                 <Route
                     path="/admin/doctors/add"
-                    element={
-                        <WithLoginProtector>
-                                <DoctorForm />
-                        </WithLoginProtector>
-                    }
+                    exact element={<DoctorForm/>}
+                />
+                <Route
+                    path="/admin/patients/:patientId/edit"
+                    element={<PatientForm />}
+                />
+                <Route
+                    path="/admin/doctors/:doctorId/edit"
+                    element={<DoctorForm />}
                 />
             </Routes>
             <LoginDialog

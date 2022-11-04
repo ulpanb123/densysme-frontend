@@ -76,8 +76,10 @@ export const PatientsList = () => {
     return(
         <>
             <div className={`${classes.pageHeader} ${classes.mb2}`}>
-                <Typography variant="h5"> Patients List</Typography>
-
+                <Typography variant="h5">Patients List</Typography>
+                <Button variant="contained" color="primary" component={RouterLink} to="/admin/patients/add">
+                    Add patient
+                </Button>
             </div>
             {patients.length > 0 ? (
                 <>
@@ -115,9 +117,18 @@ export const PatientsList = () => {
                                                         variant="contained"
                                                         component={RouterLink}
                                                         size="small"
-                                                        to={`/patients/0`}    //change to 'patients/:${patient.id}'
+                                                        to={`/admin/patients/${patient.id}`}
                                                     >
                                                         View
+                                                    </Button>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="primary"
+                                                        component={RouterLink}
+                                                        size="small"
+                                                        to={`/admin/patients/${patient.id}/edit`}
+                                                    >
+                                                        Edit
                                                     </Button>
                                                     <Button
                                                         variant="contained"

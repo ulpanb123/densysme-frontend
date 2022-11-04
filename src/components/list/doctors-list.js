@@ -20,7 +20,7 @@ export const DoctorsList = () => {
             "id": "201825560",
             "name": "Jane Rose Wood",
             "birth": "08.03.78",
-            "IIN": "141516255698",
+            "iin": "141516255698",
             "experience": "2",
             "department": "Surgery",
             "contact": "87777777777",
@@ -69,6 +69,9 @@ export const DoctorsList = () => {
         <>
             <div className={`${classes.pageHeader} ${classes.mb2}`}>
                 <Typography variant="h5"> Doctors List</Typography>
+                <Button variant="contained" color="primary" component={RouterLink} to="/admin/doctors/add">
+                    Add doctor
+                </Button>
 
             </div>
             {doctors.length > 0 ? (
@@ -107,9 +110,18 @@ export const DoctorsList = () => {
                                                         variant="contained"
                                                         component={RouterLink}
                                                         size="small"
-                                                        to={`/doctors/0`}       //change to '/doctors/:${doctor.id}'
+                                                        to={`/admin/doctors/${doctor.id}`}
                                                     >
                                                         View
+                                                    </Button>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="primary"
+                                                        component={RouterLink}
+                                                        size="small"
+                                                        to={`/admin/doctors/${doctor.id}/edit`}
+                                                    >
+                                                        Edit
                                                     </Button>
                                                     <Button
                                                         variant="contained"

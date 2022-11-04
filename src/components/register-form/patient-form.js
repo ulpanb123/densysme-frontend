@@ -72,7 +72,7 @@ export const PatientForm = () => {
                 // BackendApi.editPatientById(patientId, {
                 //         ...patient
                 //     })
-                //     .then(() => navigate("/patients"))
+                //     .then(() => navigate(`/admin/patients`))
 
             } else {
                 // !! UNCOMMENT!!
@@ -80,7 +80,7 @@ export const PatientForm = () => {
                 // BackendApi.addPatient({
                 //         ...patient,
                 //     })
-                //     .then(() => navigate("/patients"))
+                //     .then(() => navigate(`/admin/patients`))
             }
         }
     }
@@ -109,15 +109,33 @@ export const PatientForm = () => {
         }
     }
 
+
     useEffect(() => {
         if (patientId) {
-            BackendApi.getPatientById(patientId).then(({ patient, error }) => {
-                if (error) {
-                    navigate("/patients")
-                } else {
-                    setPatient(patient)
+            //remove following method call
+            setPatient(
+                {
+                    name: "Taylor Alison Swift",
+                    id: "201728560",
+                    iin: "131289898989",
+                    birth: "13.12.89",
+                    blood: "2",
+                    emergencyNum: "87777777777",
+                    contactNum: "87777777777",
+                    address: "Kabanbay batyr, 53",
+                    email: "tt.swift@gmail.com",
+                    maritalStatus: "not married",
+                    registrationDate: "31.10.22"
                 }
-            })
+            )
+            // !! UNCOMMENT
+            // BackendApi.getPatientById(patientId).then(({ patient, error }) => {
+            //     if (error) {
+            //         navigate(`/admin/patients`)
+            //     } else {
+            //         setPatient(patient)
+            //     }
+            // })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [patientId])
@@ -179,13 +197,15 @@ export const PatientForm = () => {
                             />
                         </FormControl>
                         <FormControl className={classes.mb2}>
-                            <InputLabel>Blood type</InputLabel>
-                            <Select name="blood" value={patient.blood} onChange={updatePatientField} required>
-                                <MenuItem value="A">A</MenuItem>
-                                <MenuItem value="B">B</MenuItem>
-                                <MenuItem value="AB">AB</MenuItem>
-                                <MenuItem value="O">O</MenuItem>
-                            </Select>
+                            <TextField
+                                label="Blood type"
+                                name="blood"
+                                required
+                                value={patient.blood}
+                                onChange={updatePatientField}
+                                onBlur={validateForm}
+                                helperText={errors.blood}
+                            />
                         </FormControl>
                         <FormControl className={classes.mb2}>
                             <TextField
@@ -219,19 +239,18 @@ export const PatientForm = () => {
                                 helperText={errors.email}
                             />
                         </FormControl>
-                        <FormControl>
-                            <FormLabel id="demo-radio-buttons-group-label">Marital Status</FormLabel>
-                            <RadioGroup
-                                row
-                                aria-labelledby="demo-radio-buttons-group-label"
+                        <FormControl className={classes.mb2}>
+                            <TextField
+                                label="Marital status"
+                                name="maritalStatus"
+                                required
+                                value={patient.maritalStatus}
                                 onChange={updatePatientField}
-                            >
-                                <FormControlLabel value="single" control={<Radio />} label="Single" />
-                                <FormControlLabel value="married" control={<Radio />} label="Married" />
-                                <FormControlLabel value="other" control={<Radio />} label="Other" />
-                            </RadioGroup>
+                                onBlur={validateForm}
+                                helperText={errors.maritalStatus}
+                            />
                         </FormControl>
-                        <FormControl className={classes.mb3}>
+                        <FormControl className={classes.mb2}>
                             <TextField
                                 label="Registration date"
                                 name="registrationDate"
@@ -251,7 +270,7 @@ export const PatientForm = () => {
                             variant="contained"
                             color="secondary"
                             onClick={() => {
-                                navigate("/patients")
+                                navigate(`/admin/patients`)
                             }}
                         >
                             Cancel

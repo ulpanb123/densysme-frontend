@@ -59,6 +59,7 @@ export const DoctorForm = () => {
         homepage: "",
     })
 
+
     const isInvalid =
         doctor.name.trim() === "" || doctor.id.trim() === "" || doctor.iin.trim() === ""
 
@@ -89,7 +90,7 @@ export const DoctorForm = () => {
                 // BackendApi.editDoctorById(doctorId, {
                 //         ...doctor
                 //     })
-                //     .then(() => navigate("/doctors"))
+                //     .then(() => navigate(`/admin/doctors`))
 
             } else {
                 // !! UNCOMMENT!!
@@ -97,7 +98,7 @@ export const DoctorForm = () => {
                 // BackendApi.addDoctor({
                 //         ...doctor,
                 //     })
-                //     .then(() => navigate("/doctors"))
+                //     .then(() => navigate(`/admin/doctors`))
             }
         }
     }
@@ -128,13 +129,37 @@ export const DoctorForm = () => {
 
     useEffect(() => {
         if (doctorId) {
-            BackendApi.getDoctorById(doctorId).then(({ doctor, error }) => {
-                if (error) {
-                    navigate("/doctors")
-                } else {
-                    setDoctor(doctor)
+            //remove following method call
+            setDoctor(
+                {
+                    name: "Jane Rose Wood",
+                    id: "201825560",
+                    iin: "141516255698",
+                    birth: "08.03.78",
+                    experience: "2",
+                    department: "Surgery",
+                    contactNum: "87777777777",
+                    specialization: "Plastic surgeon",
+                    photo: "https://img.freepik.com/free-photo/pleased-young-female-doctor-wearing-medical-robe-stethoscope-around-neck-standing-with-closed-posture_409827-254.jpg?w=2000",
+                    category: "first",
+                    schedule: "Mon/Wed/Fri",
+                    price: "70000",
+                    degree: "PhD",
+                    rating: "10",
+                    address: "Kabanbay batyr, 53",
+                    homepage: "null"
                 }
-            })
+            )
+
+            // !! UNCOMMENT
+
+            // BackendApi.getDoctorById(doctorId).then(({ doctor, error }) => {
+            //     if (error) {
+            //         navigate(`/admin/doctors`)
+            //     } else {
+            //         setDoctor(doctor)
+            //     }
+            // })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [doctorId])
@@ -196,10 +221,15 @@ export const DoctorForm = () => {
                             />
                         </FormControl>
                         <FormControl className={classes.mb2}>
-                            <Button variant="contained" component="label">
-                                Upload a photo
-                                <input hidden accept="image/*" multiple type="file" />
-                            </Button>
+                            <TextField
+                                label="Photo url"
+                                name="experience"
+                                required
+                                value={doctor.photo}
+                                onChange={updateDoctorField}
+                                onBlur={validateForm}
+                                helperText={errors.photo}
+                            />
                         </FormControl>
                         <FormControl className={classes.mb2}>
                             <TextField
@@ -213,24 +243,15 @@ export const DoctorForm = () => {
                             />
                         </FormControl>
                         <FormControl className={classes.mb2}>
-                            <InputLabel>Department</InputLabel>
-                            <Select name="experience" value={doctor.experience} onChange={updateDoctorField} required>
-                                <MenuItem value="medicine">Medicine</MenuItem>
-                                <MenuItem value="surgery">Surgery</MenuItem>
-                                <MenuItem value="gynaecology">Gynaecology</MenuItem>
-                                <MenuItem value="obstetrics">Obstetrics</MenuItem>
-                                <MenuItem value="paediatrics">Paediatrics</MenuItem>
-                                <MenuItem value="eye">Eye</MenuItem>
-                                <MenuItem value="ENT">ENT</MenuItem>
-                                <MenuItem value="dental">Dental</MenuItem>
-                                <MenuItem value="orthopaedics">Orthopaedics</MenuItem>
-                                <MenuItem value="neurology">Neurology</MenuItem>
-                                <MenuItem value="cardiology">Cardiology</MenuItem>
-                                <MenuItem value="psychiatry">Psychiatry</MenuItem>
-                                <MenuItem value="skin">Skin</MenuItem>
-                                <MenuItem value="plastic surgery">Plastic surgery</MenuItem>
-                                <MenuItem value="V.D.">V.D.</MenuItem>
-                            </Select>
+                            <TextField
+                                label="Department"
+                                name="department"
+                                required
+                                value={doctor.department}
+                                onChange={updateDoctorField}
+                                onBlur={validateForm}
+                                helperText={errors.department}
+                            />
                         </FormControl>
                         <FormControl className={classes.mb2}>
                             <TextField
@@ -288,16 +309,16 @@ export const DoctorForm = () => {
                                 helperText={errors.price}
                             />
                         </FormControl>
-                        <FormControl>
-                            <FormLabel id="demo-radio-buttons-group-label">Degree</FormLabel>
-                            <RadioGroup
-                                aria-labelledby="demo-radio-buttons-group-label"
+                        <FormControl className={classes.mb2}>
+                            <TextField
+                                label="Degree"
+                                name="degree"
+                                required
+                                value={doctor.degree}
                                 onChange={updateDoctorField}
-                            >
-                                <FormControlLabel value="bachelor" control={<Radio />} label="Bachelor of science in related field" />
-                                <FormControlLabel value="master" control={<Radio />} label="Master of science in Medicine" />
-                                <FormControlLabel value="doctor" control={<Radio />} label="Doctor of Medicine" />
-                            </RadioGroup>
+                                onBlur={validateForm}
+                                helperText={errors.degree}
+                            />
                         </FormControl>
                         <FormControl className={classes.mb3}>
                             <TextField
@@ -340,7 +361,7 @@ export const DoctorForm = () => {
                             variant="contained"
                             color="secondary"
                             onClick={() => {
-                                navigate("/doctors")
+                                navigate(`/admin/doctors`)
                             }}
                         >
                             Cancel
